@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { addMovie } from './../actions/movieActions';
 
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const AddMovieForm = (props) => {
-  const { push } = useHistory();
-
+  const history  = useHistory();
+  const dispatch = useDispatch();
   const [movie, setMovie] = useState({
+    id : '',
     title: "",
     director: "",
     genre: "",
@@ -22,6 +24,10 @@ const AddMovieForm = (props) => {
   }
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+    movie.id = Date.now();
+    dispatch(addMovie(movie));
+    history.push('/movies');
   }
 
   const { title, director, genre, metascore, description } = movie;

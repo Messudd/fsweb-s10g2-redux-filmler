@@ -6,13 +6,21 @@ const initialState = {
   appTitle: "IMDB Movie Database"
 }
 
-const reducer = (state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case DELETE_MOVIE:
       return {
         ...state,
-        movies: state.movies.filter(item => (action.payload !== item.id))
+        movies: state.movies.filter(item => (parseInt(action.payload) !== item.id))
       }
+    case ADD_MOVIE:
+      if(action.payload.title.length > 0 && action.payload.director.length >0 && action.payload.description.length>0){
+        return {
+          ...state,
+          movies: [...state.movies, action.payload]
+        }
+      }
+      else alert('formu boş - gecmeyelim :) ');
     default:
       return state;
   }
